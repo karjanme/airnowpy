@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/jnsnkrl/airnowpy/_apis/build/status/jnsnkrllive.airnowpy?branchName=master)](https://dev.azure.com/jnsnkrl/airnowpy/_build/latest?definitionId=2&branchName=master)
+
 # AirNowPy
 
 A Python library to facilitate interactions with the [AirNow API](https://docs.airnowapi.org/) web service.
