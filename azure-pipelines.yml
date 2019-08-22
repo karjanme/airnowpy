@@ -1,0 +1,41 @@
+variables:
+  PYTHON_VERSION: '3.7'
+
+trigger:
+  branches:
+    include:
+    - master
+    - develop
+  paths:
+    exclude:
+    - README.md
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - script: echo Testing on Linux!
+
+  - task: UsePythonVersion@0
+    displayName: 'Use Python $(PYTHON_VERSION)'
+    inputs:
+      versionSpec: '$(PYTHON_VERSION)'
+
+  - script: python -m pip install --upgrade pip setuptools wheel
+    displayName: 'Install tools'
+
+  - script: pip install -r requirements.txt
+    displayName: 'Install requirements'
+
+  - script: |
+      pip install pytest
+      pip install pytest-cov
+      pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+    displayName: 'Test with pytest'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFiles: '**/test-*.xml'
+      failTaskOnFailedTests: true
+      testRunTitle: 'Publish test results'
