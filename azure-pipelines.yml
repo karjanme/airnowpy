@@ -23,10 +23,13 @@ steps:
   - script: pip install -r requirements.txt
     displayName: 'Install requirements'
 
+  - script: pip install -e . 
+    displayName: 'Install self'
+
   - script: |
       pip install pytest
       pip install pytest-cov
-      pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+      pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=airnowpy --cov-report=xml --cov-report=html
     displayName: 'Test with pytest'
 
   - task: PublishTestResults@2
@@ -35,3 +38,9 @@ steps:
       testResultsFiles: '**/test-*.xml'
       failTaskOnFailedTests: true
       testRunTitle: 'Publish test results'
+
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
