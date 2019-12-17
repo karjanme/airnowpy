@@ -2,10 +2,6 @@ variables:
   PYTHON_VERSION: '3.7'
 
 trigger:
-  branches:
-    include:
-    - master
-    - develop
   paths:
     exclude:
     - README.md
