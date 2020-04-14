@@ -44,10 +44,7 @@ steps:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
 
-  - script: |
-      echo 'build the package'
-      touch dist/test.whl
-  #python setup.py bdist_wheel
+  - script: python setup.py bdist_wheel
     displayName: Build package
 
   - task: TwineAuthenticate@1
@@ -55,8 +52,6 @@ steps:
     inputs:
       pythonUploadServiceConnection: $(PYPI_SERVICE_CONNECTION)
 
-  - script: |
-      cat $(PYPIRC_PATH)
-      twine upload -r $(PYPI_SERVICE_CONNECTION) --config-file $(PYPIRC_PATH) dist/*.whl --non-interactive
+  - script: twine upload -r $(PYPI_SERVICE_CONNECTION) --config-file $(PYPIRC_PATH) dist/* --non-interactive
     displayName: Publish artifacts
-    #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
