@@ -50,7 +50,7 @@ steps:
   #python setup.py bdist_wheel
     displayName: Build package
 
-  - task: TwineAuthenticate@0
+  - task: TwineAuthenticate@1
     displayName: Configure twine authentication
     inputs:
       pythonUploadServiceConnection: $(PYPI_SERVICE_CONNECTION)
