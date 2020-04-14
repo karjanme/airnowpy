@@ -55,6 +55,8 @@ steps:
     inputs:
       pythonUploadServiceConnection: $(PYPI_SERVICE_CONNECTION)
 
-  - script: twine upload -r $(PYPI_SERVICE_CONNECTION) --config-file $(PYPIRC_PATH) dist/*.whl
+  - script: |
+      cat $(PYPIRC_PATH)
+      twine upload -r $(PYPI_SERVICE_CONNECTION) --config-file $(PYPIRC_PATH) dist/*.whl --non-interactive
     displayName: Publish artifacts
     #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
