@@ -2,6 +2,8 @@
 __pycache__/
 
 # Distribution / Packaging
+build/
+dist/
 *.egg-info/
 
 # Testing / Coverage Reports
