@@ -1,1 +1,14 @@
+# Bytecode-Compiled
+__pycache__/
 
+# Distribution / Packaging
+build/
+dist/
+*.egg-info/
+
+# Testing / Coverage Reports
+.coverage
+.pytest_cache/
+coverage.xml
+htmlcov/
+junit/
