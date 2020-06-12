@@ -1,6 +1,5 @@
-import setuptools
-
 from distutils.core import setup
+from setuptools import find_packages
 
 
 with open("README.md", "r") as fh:
@@ -8,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="airnowpy",
-    version="0.1.1",
+    version="0.1.2",
     description="Python Library for the AirNow API",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -16,7 +15,7 @@ setup(
     author="Karl Jansen",
     author_email="jnsnkrl@live.com",
     license="MIT",
-    packages=setuptools.find_packages(),
+    packages=find_packages(exclude=["tests"]),
     install_requires=[
         "pytz",
         "requests"
