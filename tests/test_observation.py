@@ -1,13 +1,13 @@
 import pytz
-import unittest
 
 from datetime import datetime
+from unittest import TestCase
 
 from airnowpy.category import Category
 from airnowpy.observation import Observation
 
 
-class ObservationTest(unittest.TestCase):
+class ObservationTest(TestCase):
     expectedTimestampUTC = datetime(2017, 8, 21, 18, 25, 35, tzinfo=pytz.UTC)
     expectedParameterName = "ECL"
     expectedCategory = Category.GOOD

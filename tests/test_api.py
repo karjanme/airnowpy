@@ -1,15 +1,16 @@
 import pytz
 import requests
-import unittest
 
 from datetime import datetime
+from typing import List
+from unittest import TestCase
 
 from airnowpy.api import API
 from airnowpy.category import Category
 from airnowpy.observation import Observation
 
 
-class APITest(unittest.TestCase):
+class APITest(TestCase):
     api = API('TEST_KEY')
 
     @classmethod
@@ -35,7 +36,7 @@ class APITest(unittest.TestCase):
     def test_getCurrentObservationByLatLon_badLatitudeUpper(self):
         self._checkBadLatitude(90.001)
 
-    def _checkBadLatitude(self, lat):
+    def _checkBadLatitude(self, lat: float) -> None:
         expectedMsg = "Latitude must be between -90 and 90: " + str(lat)
         with self.assertRaises(ValueError) as context:
             self.api.getCurrentObservationByLatLon(lat, 0)
@@ -49,7 +50,7 @@ class APITest(unittest.TestCase):
     def test_getCurrentObservationByLatLon_badLongitudeUpper(self):
         self._checkBadLongitude(180.001)
 
-    def _checkBadLongitude(self, lon):
+    def _checkBadLongitude(self, lon: float) -> None:
         expectedMsg = "Longitude must be between -180 and 180: " + str(lon)
         with self.assertRaises(ValueError) as context:
             self.api.getCurrentObservationByLatLon(0, lon)
@@ -71,8 +72,7 @@ class APITest(unittest.TestCase):
     def test_getCurrentObservationByZipCode_badZipCodeUpper(self):
         self._checkBadZipCode(100000)
 
-    def _checkBadZipCode(self, zipCode):
-        expectedMsg = "Zip Code must be between 10000 and 99999: " + str(zipCode)
+    def _checkBadZipCode(self, zipCode: int) -> None:
         with self.assertRaises(ValueError) as context:
             self.api.getCurrentObservationByZipCode(zipCode)
             ex = context.exception
@@ -86,7 +86,7 @@ class APITest(unittest.TestCase):
         self.assertIsInstance(observations[0], Observation)
         self._assertObservations(observations)
 
-    def _assertObservations(self, observations):
+    def _assertObservations(self, observations: List[Observation]) -> None:
         # Spot check a few attributes on the sample observations
         expectedTimestampUTC = datetime(2019, 8, 1, 8, 0, tzinfo=pytz.UTC)
         self.assertEqual(expectedTimestampUTC, observations[0].getTimestampUTC())
