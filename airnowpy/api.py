@@ -3,7 +3,7 @@ import pytz
 import requests
 
 from datetime import date, datetime, time
-from pytz import timezone
+from typing import List
 
 from airnowpy.observation import Observation
 from airnowpy.category import Category
@@ -17,7 +17,7 @@ class API(object):
     _RETURN_FORMAT = "application/json"
 
     def __init__(self,
-            apiKey):
+            apiKey: str):
         """
         Constructor for the AirNow API
 
@@ -26,9 +26,9 @@ class API(object):
         """
         self.apiKey = apiKey
 
-    def getCurrentObservationByLatLon(self, 
-            latitude, 
-            longitude):
+    def getCurrentObservationByLatLon(self,
+            latitude: float,
+            longitude: float) -> List[Observation]:
         """
         Retrieve the current air quality observation closest to the given
         location provided as a Latidute/Longitude pair.
@@ -38,7 +38,7 @@ class API(object):
             longitude (float): Longitude in decimal degrees.
 
         Returns:
-            Observation[]: An array of observation objects containing the air
+            Observation[]: A list of observation objects containing the air
                 quality data
 
         Reference:
@@ -66,8 +66,8 @@ class API(object):
         response = requests.get(requestUrl, params=payload)
         return self._convertResponseToObservation(response)
 
-    def getCurrentObservationByZipCode(self, 
-            zipCode):
+    def getCurrentObservationByZipCode(self,
+            zipCode: int) -> List[Observation]:
         """
         Retrieve the current air quality observation closest to the given
         location provided as a Zip Code.
@@ -76,7 +76,7 @@ class API(object):
             zipCode (int): Zip Code as a number.
 
         Returns:
-            Observation[]: An array of observation objects containing the air
+            Observation[]: A list of observation objects containing the air
                 quality data
 
         Reference:
@@ -101,7 +101,7 @@ class API(object):
         return self._convertResponseToObservation(response)
 
     def _convertResponseToObservation(self,
-            response):
+            response: requests.Response) -> List[Observation]:
         rawObservations = json.loads(response.text)
         observations = []
         for jsonObservation in rawObservations:
