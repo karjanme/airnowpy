@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 from typing import List
 from unittest import TestCase
+from unittest.mock import patch
 
 from airnowpy.api import API
 from airnowpy.category import Category
@@ -11,24 +12,16 @@ from airnowpy.observation import Observation
 
 
 class APITest(TestCase):
-    api = API('TEST_KEY')
+    api_key = "TEST_KEY"
+    api = API(api_key)
 
-    @classmethod
-    def setUpClass(cls):
-        def mock_requestsGet(*args, **kwargs):
+    def _mock_response(self):
             response = type('Response', (object,), {})
             response.headers = {}
             response.status_code = 200
             with open('./tests/sample_observation.json', 'r') as fixture:
                 response.text = fixture.read()
             return response
-
-        cls.request_get = requests.get
-        requests.get = mock_requestsGet
-
-    @classmethod
-    def tearDownClass(cls):
-        requests.get = cls.request_get
 
     def test_getCurrentObservationByLatLon_badLatitudeLower(self):
         self._checkBadLatitude(-90.001)
@@ -58,13 +51,36 @@ class APITest(TestCase):
             actualMsg = ex.msg
             self.assertEquals(expectedMsg, actualMsg)
 
-    def test_getCurrentObservationByLatLon(self):
+    def test_getCurrentObservationByLatLon_noDistance(self):
+        self.executeGetCurrentObservationByLatLongTest(False)
+
+    def test_getCurrentObservationByLatLon_withDistance(self):
+        self.executeGetCurrentObservationByLatLongTest(True)
+
+    def executeGetCurrentObservationByLatLongTest(self, useDistance: bool) -> None:
         latitude = 47.562
         longitude = -122.3405
-        observations = self.api.getCurrentObservationByLatLon(latitude, longitude)
-        self.assertIsInstance(observations, list)
-        self.assertIsInstance(observations[0], Observation)
-        self._assertObservations(observations)
+        distance = 10
+
+        expected_url = "http://" + API._HOST + API._ENDPOINT_OBSERVATION_BY_LATLON
+        expected_payload = {}
+        expected_payload["latitude"] = latitude
+        expected_payload["longitude"] = longitude
+        expected_payload["format"] = API._RETURN_FORMAT
+        expected_payload["API_KEY"] = self.api_key
+        if (useDistance):
+            expected_payload["distance"] = 10
+
+        with patch.object(requests, 'get', return_value=self._mock_response()) as mock_requestsGet:
+            if (useDistance):
+                observations = self.api.getCurrentObservationByLatLon(latitude, longitude, distance)
+            else:
+                observations = self.api.getCurrentObservationByLatLon(latitude, longitude)
+
+            mock_requestsGet.assert_called_once_with(expected_url, params=expected_payload)
+            self.assertIsInstance(observations, list)
+            self.assertIsInstance(observations[0], Observation)
+            self._assertObservations(observations)
 
     def test_getCurrentObservationByZipCode_badZipCodeLower(self):
         self._checkBadZipCode(9999)
@@ -73,18 +89,41 @@ class APITest(TestCase):
         self._checkBadZipCode(100000)
 
     def _checkBadZipCode(self, zipCode: int) -> None:
+        expectedMsg = "Zip Code must be between 10000 and 99999: " + str(zipCode)
         with self.assertRaises(ValueError) as context:
             self.api.getCurrentObservationByZipCode(zipCode)
             ex = context.exception
             actualMsg = ex.msg
             self.assertEquals(expectedMsg, actualMsg)
 
-    def test_getCurrentObservationByZipCode(self):
-        zipCode = 98195
-        observations = self.api.getCurrentObservationByZipCode(zipCode)
-        self.assertIsInstance(observations, list)
-        self.assertIsInstance(observations[0], Observation)
-        self._assertObservations(observations)
+    def test_getCurrentObservationByZipCode_noDistance(self):
+        self.executeGetCurrentObservationByZipCodeTest(False)
+
+    def test_getCurrentObservationByZipCode_withDistance(self):
+        self.executeGetCurrentObservationByZipCodeTest(True)
+
+    def executeGetCurrentObservationByZipCodeTest(self, useDistance: bool) -> None:
+        zipCode = 98185
+        distance = 10
+
+        expected_url = "http://" + API._HOST + API._ENDPOINT_OBSERVATION_BY_ZIPCODE
+        expected_payload = {}
+        expected_payload["zipCode"] = zipCode
+        expected_payload["format"] = API._RETURN_FORMAT
+        expected_payload["API_KEY"] = self.api_key
+        if (useDistance):
+            expected_payload["distance"] = 10
+
+        with patch.object(requests, 'get', return_value=self._mock_response()) as mock_requestsGet:
+            if (useDistance):
+                observations = self.api.getCurrentObservationByZipCode(zipCode, distance)
+            else:
+                observations = self.api.getCurrentObservationByZipCode(zipCode)
+
+            mock_requestsGet.assert_called_once_with(expected_url, params=expected_payload)
+            self.assertIsInstance(observations, list)
+            self.assertIsInstance(observations[0], Observation)
+            self._assertObservations(observations)
 
     def _assertObservations(self, observations: List[Observation]) -> None:
         # Spot check a few attributes on the sample observations
