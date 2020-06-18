@@ -14,6 +14,8 @@ class API(object):
     """AirNow API"""
 
     _HOST = "www.airnowapi.org"
+    _ENDPOINT_OBSERVATION_BY_LATLON = "/aq/observation/latLong/current"
+    _ENDPOINT_OBSERVATION_BY_ZIPCODE = "/aq/observation/zipCode/current"
     _RETURN_FORMAT = "application/json"
 
     def __init__(self,
@@ -28,7 +30,8 @@ class API(object):
 
     def getCurrentObservationByLatLon(self,
             latitude: float,
-            longitude: float) -> List[Observation]:
+            longitude: float,
+            distanceMiles: int = 0) -> List[Observation]:
         """
         Retrieve the current air quality observation closest to the given
         location provided as a Latidute/Longitude pair.
@@ -36,6 +39,7 @@ class API(object):
         Parameters:
             latitude (float): Latitude in decimal degrees.
             longitude (float): Longitude in decimal degrees.
+            [distanceMiles] (int): Distance in miles.
 
         Returns:
             Observation[]: A list of observation objects containing the air
@@ -51,29 +55,33 @@ class API(object):
         if (longitude < -180 or 180 < longitude):
             raise ValueError(
                 "Longitude must be between -180 and 180: " + str(longitude))
-
-        endpoint = "/aq/observation/latLong/current"
-        distanceMiles = 0
+        if (distanceMiles < 0):
+            raise ValueError(
+                "Distance must be a positive integer: " + str(distanceMiles))
 
         # Send Request and Receive Response
-        requestUrl = "http://" + API._HOST + endpoint
-        payload = {"latitude": latitude,
-                   "longitude": longitude,
-                   "distance": distanceMiles,
-                   "format": API._RETURN_FORMAT,
-                   "API_KEY": self.apiKey
-                  }
+        requestUrl = "http://" + API._HOST + API._ENDPOINT_OBSERVATION_BY_LATLON
+        payload = {}
+        payload["latitude"] = latitude
+        payload["longitude"] = longitude
+        payload["format"] = API._RETURN_FORMAT
+        payload["API_KEY"] = self.apiKey
+        if (distanceMiles is not 0):
+            payload["distance"] = distanceMiles
+
         response = requests.get(requestUrl, params=payload)
         return self._convertResponseToObservation(response)
 
     def getCurrentObservationByZipCode(self,
-            zipCode: int) -> List[Observation]:
+            zipCode: int,
+            distanceMiles: int = 0) -> List[Observation]:
         """
         Retrieve the current air quality observation closest to the given
         location provided as a Zip Code.
 
         Parameters:
             zipCode (int): Zip Code as a number.
+            [distanceMiles] (int): Distance in miles.
 
         Returns:
             Observation[]: A list of observation objects containing the air
@@ -86,17 +94,19 @@ class API(object):
         if (zipCode < 10000 or 99999 < zipCode):
             raise ValueError(
                 "Zip Code must be between 10000 and 99999: " + str(zipCode))
-
-        endpoint = "/aq/observation/zipCode/current"
-        distanceMiles = 0
+        if (distanceMiles < 0):
+            raise ValueError(
+                "Distance must be a positive integer: " + str(distanceMiles))
 
         # Send Request and Receive Response
-        requestUrl = "http://" + API._HOST + endpoint
-        payload = {"zipCode": zipCode,
-                   "distance": distanceMiles,
-                   "format": API._RETURN_FORMAT,
-                   "API_KEY": self.apiKey
-                  }
+        requestUrl = "http://" + API._HOST + API._ENDPOINT_OBSERVATION_BY_ZIPCODE
+        payload = {}
+        payload["zipCode"] = zipCode
+        payload["format"] = API._RETURN_FORMAT
+        payload["API_KEY"] = self.apiKey
+        if (distanceMiles is not 0):
+            payload["distance"] = distanceMiles
+
         response = requests.get(requestUrl, params=payload)
         return self._convertResponseToObservation(response)
 
