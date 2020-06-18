@@ -8,6 +8,9 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## Unreleased
 ### Added
 - Type hints per PEP 484
+- Ability to specify distance as a parameter to the API functions
+### Changed
+- Omit the distance from the webservice payload if not provided
 
 ## Release 0.1.2 [2020-06-12]
 ### Fixed
