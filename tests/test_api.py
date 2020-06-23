@@ -83,13 +83,13 @@ class APITest(TestCase):
             self._assertObservations(observations)
 
     def test_getCurrentObservationByZipCode_badZipCodeLower(self):
-        self._checkBadZipCode(9999)
+        self._checkBadZipCode("9999")
 
     def test_getCurrentObservationByZipCode_badZipCodeUpper(self):
-        self._checkBadZipCode(100000)
+        self._checkBadZipCode("100000")
 
-    def _checkBadZipCode(self, zipCode: int) -> None:
-        expectedMsg = "Zip Code must be between 10000 and 99999: " + str(zipCode)
+    def _checkBadZipCode(self, zipCode: str) -> None:
+        expectedMsg = "Zip Code must be a 5-digit string: " + zipCode
         with self.assertRaises(ValueError) as context:
             self.api.getCurrentObservationByZipCode(zipCode)
             ex = context.exception
@@ -102,8 +102,12 @@ class APITest(TestCase):
     def test_getCurrentObservationByZipCode_withDistance(self):
         self.executeGetCurrentObservationByZipCodeTest(True)
 
-    def executeGetCurrentObservationByZipCodeTest(self, useDistance: bool) -> None:
-        zipCode = 98185
+    def test_getCurrentObservationByZipCode_ZeroZipCode(self):
+        self.executeGetCurrentObservationByZipCodeTest(True, "01234")
+
+    def executeGetCurrentObservationByZipCodeTest(self,
+            useDistance: bool,
+            zipCode: str = "98185") -> None:
         distance = 10
 
         expected_url = "http://" + API._HOST + API._ENDPOINT_OBSERVATION_BY_ZIPCODE
