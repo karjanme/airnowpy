@@ -1,4 +1,3 @@
-import pytz
 import requests
 
 from datetime import datetime
