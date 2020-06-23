@@ -1,14 +1,12 @@
 import json
-import pytz
 import re
 import requests
 
-from datetime import date, datetime, time
+from datetime import datetime
 from typing import List
 
 from airnowpy.observation import Observation
 from airnowpy.category import Category
-from airnowpy.util import Util
 
 
 class API(object):
@@ -118,19 +116,14 @@ class API(object):
         rawObservations = json.loads(response.text)
         observations = []
         for jsonObservation in rawObservations:
-            datetimeObservedStr = (jsonObservation["DateObserved"]
+            datetimeStr = (jsonObservation["DateObserved"]
                 + str(jsonObservation["HourObserved"]))
-            datetimeObservedObj = datetime.strptime(datetimeObservedStr,
+            timestamp = datetime.strptime(datetimeStr,
                 "%Y-%m-%d %H")
-            localTimezone = Util.lookupTimezone(
-                jsonObservation["LocalTimeZone"]
-            )
-            timestampLocal = localTimezone.localize(datetimeObservedObj)
-            timestampUTC = timestampLocal.astimezone(pytz.UTC)
             category = Category.lookupByValue(
                 jsonObservation["Category"]["Number"]
             )
-            observation = Observation(timestampUTC,
+            observation = Observation(timestamp,
                                       jsonObservation["ReportingArea"],
                                       jsonObservation["StateCode"],
                                       jsonObservation["Latitude"],
