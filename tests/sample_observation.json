@@ -1,25 +1,31 @@
 [
   {
     "DateObserved":"2019-08-01 ",
-	"HourObserved":1,
-	"LocalTimeZone":"PST",
-	"ReportingArea":"Seattle-Bellevue-Kent Valley",
-	"StateCode":"WA",
-	"Latitude":47.562,
-	"Longitude":-122.3405,
-	"ParameterName":"O3",
-	"AQI":23,
-	"Category":{"Number":1,"Name":"Good"}
+    "HourObserved":1,
+    "LocalTimeZone":"PST",
+    "ReportingArea":"Seattle-Bellevue-Kent Valley",
+    "StateCode":"WA",
+    "Latitude":47.562,
+    "Longitude":-122.3405,
+    "ParameterName":"O3",
+    "AQI":23,
+    "Category":{
+      "Number":1,
+      "Name":"Good"
+    }
   },{
     "DateObserved":"2019-08-01 ",
-	"HourObserved":1,
-	"LocalTimeZone":"PST",
-	"ReportingArea":"Seattle-Bellevue-Kent Valley",
-	"StateCode":"WA",
-	"Latitude":47.562,
-	"Longitude":-122.3405,
-	"ParameterName":"PM2.5",
-	"AQI":23,
-	"Category":{"Number":1,"Name":"Good"}
+    "HourObserved":1,
+    "LocalTimeZone":"PST",
+    "ReportingArea":"Seattle-Bellevue-Kent Valley",
+    "StateCode":"WA",
+    "Latitude":47.562,
+    "Longitude":-122.3405,
+    "ParameterName":"PM2.5",
+    "AQI":23,
+    "Category":{
+      "Number":1,
+      "Name":"Good"
+    }
   }
 ]

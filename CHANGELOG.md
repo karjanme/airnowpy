@@ -11,6 +11,7 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Ability to specify distance as a parameter to the API functions
 ### Changed
 - Omit the distance from the webservice payload if not provided
+- Stop converting the observation timestamp from local to UTC
 ### Fixed
 - Treat 5-digit zip codes beginning with 0 as valid
 

@@ -1,4 +1,3 @@
-import pytz
 import requests
 
 from datetime import datetime
@@ -130,9 +129,11 @@ class APITest(TestCase):
             self._assertObservations(observations)
 
     def _assertObservations(self, observations: List[Observation]) -> None:
-        # Spot check a few attributes on the sample observations
-        expectedTimestampUTC = datetime(2019, 8, 1, 8, 0, tzinfo=pytz.UTC)
-        self.assertEqual(expectedTimestampUTC, observations[0].getTimestampUTC())
+        expectedTimestamp = datetime(2019, 8, 1, 1, 0)
+        self.assertEqual(2, len(observations))
+        self.assertEqual(expectedTimestamp, observations[0].getTimestamp())
         self.assertEqual("O3", observations[0].getParameterName())
+        self.assertEqual(Category.GOOD, observations[0].getCategory())
+        self.assertEqual(expectedTimestamp, observations[1].getTimestamp())
         self.assertEqual("PM2.5", observations[1].getParameterName())
         self.assertEqual(Category.GOOD, observations[1].getCategory())
