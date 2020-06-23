@@ -1,5 +1,6 @@
 import json
 import pytz
+import re
 import requests
 
 from datetime import date, datetime, time
@@ -73,14 +74,14 @@ class API(object):
         return self._convertResponseToObservation(response)
 
     def getCurrentObservationByZipCode(self,
-            zipCode: int,
+            zipCode: str,
             distanceMiles: int = 0) -> List[Observation]:
         """
         Retrieve the current air quality observation closest to the given
         location provided as a Zip Code.
 
         Parameters:
-            zipCode (int): Zip Code as a number.
+            zipCode (int): Zip Code as a string.
             [distanceMiles] (int): Distance in miles.
 
         Returns:
@@ -91,9 +92,11 @@ class API(object):
             https://docs.airnowapi.org/CurrentObservationsByZip/docs
         """
         # Validate Arguments
-        if (zipCode < 10000 or 99999 < zipCode):
+        zipCodeRegExp = re.compile(r'^\d{5}$')
+        zipCodeMatch = zipCodeRegExp.match(zipCode)
+        if (zipCodeMatch is None):
             raise ValueError(
-                "Zip Code must be between 10000 and 99999: " + str(zipCode))
+                "Zip Code must be a 5-digit string: " + zipCode)
         if (distanceMiles < 0):
             raise ValueError(
                 "Distance must be a positive integer: " + str(distanceMiles))
