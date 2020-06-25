@@ -18,26 +18,26 @@ class Category(Enum):
     HAZARDOUS = ("Hazardous", 6)
     UNAVAILABLE = ("Unavailable", 7)
 
-    def __init__(self, label, value):
+    def __init__(self, label: str, value: int):
         self._label = label
         self._value_ = value
 
     @staticmethod
-    def lookupByLabel(label):
+    def lookupByLabel(label: str) -> 'Category':
         for name, member in Category.__members__.items():
             if label == member.getLabel():
                 return member
         raise LookupError("No matching Category found for label: " + label)
 
     @staticmethod
-    def lookupByValue(value):
+    def lookupByValue(value: int) -> 'Category':
         for name, member in Category.__members__.items():
             if value == member.getValue():
                 return member
         raise LookupError("No matching Category found for value: " + str(value))
     
-    def getLabel(self):
+    def getLabel(self) -> str:
         return self._label
 
-    def getValue(self):
+    def getValue(self) -> int:
         return self._value_
