@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="airnowpy",
-    version="0.1.2",
+    version="1.0.0",
     description="Python Library for the AirNow API",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -20,7 +20,7 @@ setup(
         "requests"
     ],
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
         "Intended Audience :: Science/Research",
