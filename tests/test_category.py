@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from airnowpy.category import Category
 
 
-class CategoryTest(unittest.TestCase):
+class CategoryTest(TestCase):
 
     def test_lookupByLabel(self):
         labelToLookup = "Unavailable"

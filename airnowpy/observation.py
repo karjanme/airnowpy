@@ -1,3 +1,6 @@
+import datetime
+
+from airnowpy.category import Category
 
 
 class Observation(object):
@@ -9,17 +12,17 @@ class Observation(object):
     """
 
     def __init__(self,
-            timestampUTC,
-            reportingArea,
-            stateCode,
-            latitude,
-            longitude,
-            parameterName,
-            aqiValue,
-            category):
+            timestamp: datetime,
+            reportingArea: str,
+            stateCode: str,
+            latitude: float,
+            longitude: float,
+            parameterName: float,
+            aqiValue: int,
+            category: Category):
         """
         Parameters:
-            timestampUTC (datetime): The UTC timestamp of the observation
+            timestamp (datetime): The local timestamp of the observation
             reportingArea (string):	City or area name of observed data
             stateCode (string): Two-character state abbreviation
             latitude (float): Latitude in decimal degrees
@@ -29,7 +32,7 @@ class Observation(object):
             category (Category): The corresponding Category for the AQI value
         """
 
-        self._timestampUTC = timestampUTC
+        self._timestamp = timestamp
         self._reportingArea = reportingArea
         self._stateCode = stateCode
         self._latitude = latitude
@@ -38,11 +41,11 @@ class Observation(object):
         self._aqiValue = aqiValue
         self._category = category
 
-    def getParameterName(self):
+    def getParameterName(self) -> str:
         return self._parameterName
 
-    def getCategory(self):
+    def getCategory(self) -> Category:
         return self._category
 
-    def getTimestampUTC(self):
-        return self._timestampUTC
+    def getTimestamp(self) -> datetime:
+        return self._timestamp

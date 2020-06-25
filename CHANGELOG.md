@@ -7,6 +7,16 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+## Release 1.0.0 [2020-06-24]
+### Added
+- Type hints per PEP 484
+- Ability to specify distance as a parameter to the API functions
+### Changed
+- Omit the distance from the webservice payload if not provided
+- Stop converting the observation timestamp from local to UTC
+### Fixed
+- Treat 5-digit zip codes beginning with 0 as valid
+
 ## Release 0.1.2 [2020-06-12]
 ### Fixed
 - Export the modules of the package
