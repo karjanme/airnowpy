@@ -7,6 +7,12 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+## Release 2.0.0 [2020-07-14]
+### Added
+- The ability to access all data contained within an observation
+### Changed
+- The way data is accessed from an observation
+
 ## Release 1.0.0 [2020-06-24]
 ### Added
 - Type hints per PEP 484

@@ -53,8 +53,17 @@ class APITest(TestCase):
     def test_getCurrentObservationByLatLon_noDistance(self):
         self.executeGetCurrentObservationByLatLongTest(False)
 
-    def test_getCurrentObservationByLatLon_withDistance(self):
+    def test_getCurrentObservationByLatLon_withGoodDistance(self):
         self.executeGetCurrentObservationByLatLongTest(True)
+
+    def test_getCurrentObservationByLatLon_withBadDistance(self):
+        badDistance = -1
+        expectedMsg = "Distance must be a positive integer: " + str(badDistance)
+        with self.assertRaises(ValueError) as context:
+            self.api.getCurrentObservationByLatLon(0, 0, badDistance)
+            ex = context.exception
+            actualMsg = ex.msg
+            self.assertEquals(expectedMsg, actualMsg)
 
     def executeGetCurrentObservationByLatLongTest(self, useDistance: bool) -> None:
         latitude = 47.562
@@ -98,8 +107,17 @@ class APITest(TestCase):
     def test_getCurrentObservationByZipCode_noDistance(self):
         self.executeGetCurrentObservationByZipCodeTest(False)
 
-    def test_getCurrentObservationByZipCode_withDistance(self):
+    def test_getCurrentObservationByZipCode_withGoodDistance(self):
         self.executeGetCurrentObservationByZipCodeTest(True)
+
+    def test_getCurrentObservationByZipCode_withBadDistance(self):
+        badDistance = -1
+        expectedMsg = "Distance must be a positive integer: " + str(badDistance)
+        with self.assertRaises(ValueError) as context:
+            self.api.getCurrentObservationByZipCode("01234", badDistance)
+            ex = context.exception
+            actualMsg = ex.msg
+            self.assertEquals(expectedMsg, actualMsg)
 
     def test_getCurrentObservationByZipCode_ZeroZipCode(self):
         self.executeGetCurrentObservationByZipCodeTest(True, "01234")
@@ -131,9 +149,9 @@ class APITest(TestCase):
     def _assertObservations(self, observations: List[Observation]) -> None:
         expectedTimestamp = datetime(2019, 8, 1, 1, 0)
         self.assertEqual(2, len(observations))
-        self.assertEqual(expectedTimestamp, observations[0].getTimestamp())
-        self.assertEqual("O3", observations[0].getParameterName())
-        self.assertEqual(Category.GOOD, observations[0].getCategory())
-        self.assertEqual(expectedTimestamp, observations[1].getTimestamp())
-        self.assertEqual("PM2.5", observations[1].getParameterName())
-        self.assertEqual(Category.GOOD, observations[1].getCategory())
+        self.assertEqual(expectedTimestamp, observations[0].timestamp)
+        self.assertEqual("O3", observations[0].parameterName)
+        self.assertEqual(Category.GOOD, observations[0].category)
+        self.assertEqual(expectedTimestamp, observations[1].timestamp)
+        self.assertEqual("PM2.5", observations[1].parameterName)
+        self.assertEqual(Category.GOOD, observations[1].category)
