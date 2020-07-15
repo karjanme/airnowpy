@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+- The ability to access all data contained within an observation
+### Changed
+- The way data is accessed from an observation
 
 ## Release 1.0.0 [2020-06-24]
 ### Added
