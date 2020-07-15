@@ -53,8 +53,17 @@ class APITest(TestCase):
     def test_getCurrentObservationByLatLon_noDistance(self):
         self.executeGetCurrentObservationByLatLongTest(False)
 
-    def test_getCurrentObservationByLatLon_withDistance(self):
+    def test_getCurrentObservationByLatLon_withGoodDistance(self):
         self.executeGetCurrentObservationByLatLongTest(True)
+
+    def test_getCurrentObservationByLatLon_withBadDistance(self):
+        badDistance = -1
+        expectedMsg = "Distance must be a positive integer: " + str(badDistance)
+        with self.assertRaises(ValueError) as context:
+            self.api.getCurrentObservationByLatLon(0, 0, badDistance)
+            ex = context.exception
+            actualMsg = ex.msg
+            self.assertEquals(expectedMsg, actualMsg)
 
     def executeGetCurrentObservationByLatLongTest(self, useDistance: bool) -> None:
         latitude = 47.562
@@ -98,8 +107,17 @@ class APITest(TestCase):
     def test_getCurrentObservationByZipCode_noDistance(self):
         self.executeGetCurrentObservationByZipCodeTest(False)
 
-    def test_getCurrentObservationByZipCode_withDistance(self):
+    def test_getCurrentObservationByZipCode_withGoodDistance(self):
         self.executeGetCurrentObservationByZipCodeTest(True)
+
+    def test_getCurrentObservationByZipCode_withBadDistance(self):
+        badDistance = -1
+        expectedMsg = "Distance must be a positive integer: " + str(badDistance)
+        with self.assertRaises(ValueError) as context:
+            self.api.getCurrentObservationByZipCode("01234", badDistance)
+            ex = context.exception
+            actualMsg = ex.msg
+            self.assertEquals(expectedMsg, actualMsg)
 
     def test_getCurrentObservationByZipCode_ZeroZipCode(self):
         self.executeGetCurrentObservationByZipCodeTest(True, "01234")
