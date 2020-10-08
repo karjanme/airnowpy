@@ -69,7 +69,7 @@ jobs:
       - name: Coverage
         run: |
           pip install pytest pytest-cov
-          pytest --cov-report=xml --cov=airnowpy tests
+          pytest tests --cov-report=xml --cov=airnowpy
       - name: Report
         uses: codecov/codecov-action@v1
         with:
