@@ -65,7 +65,7 @@ class API(object):
         payload["longitude"] = longitude
         payload["format"] = API._RETURN_FORMAT
         payload["API_KEY"] = self.apiKey
-        if (distanceMiles is not 0):
+        if (distanceMiles != 0):
             payload["distance"] = distanceMiles
 
         response = requests.get(requestUrl, params=payload)
@@ -105,7 +105,7 @@ class API(object):
         payload["zipCode"] = zipCode
         payload["format"] = API._RETURN_FORMAT
         payload["API_KEY"] = self.apiKey
-        if (distanceMiles is not 0):
+        if (distanceMiles != 0):
             payload["distance"] = distanceMiles
 
         response = requests.get(requestUrl, params=payload)
