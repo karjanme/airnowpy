@@ -1,13 +1,13 @@
-[![PyPi][pypi-image]][pypi-url]
-[![Build][azure-pipeline-image]][azure-pipeline-url]
-[![Downloads][downloads-image]][downloads-url]
-
-[azure-pipeline-image]: https://dev.azure.com/jnsnkrl/airnowpy/_apis/build/status/jnsnkrllive.airnowpy?branchName=master
-[azure-pipeline-url]: https://dev.azure.com/jnsnkrl/airnowpy/_build/latest?definitionId=2&branchName=master
 [downloads-image]: https://pepy.tech/badge/airnowpy
 [downloads-url]: https://pepy.tech/project/airnowpy
+[github-actions-image]: https://github.com/jnsnkrllive/solarcalc/workflows/Main%20Workflow/badge.svg?branch=master
+[github-actions-url]: https://github.com/jnsnkrllive/solarcalc/actions?query=workflow%3A%22Main+Workflow%22+branch%3Amaster
 [pypi-image]: https://badge.fury.io/py/airnowpy.svg
 [pypi-url]: https://badge.fury.io/py/airnowpy
+
+[![PyPi][pypi-image]][pypi-url]
+[![GitHub Actions][github-actions-image]][github-actions-url]
+[![Downloads][downloads-image]][downloads-url]
 
 # AirNowPy
 
