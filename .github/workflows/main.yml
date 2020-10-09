@@ -3,45 +3,100 @@ name: Main Workflow
 on: [push, pull_request]
 
 jobs:
-  main:
-    name: Main Job
+  lint:
+    name: Lint Job
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
+      - name: Install
+        run: | 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Lint
+        run: |
+          pip install flake8
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+  test:
+    name: Test Job
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - "3.7"
+          - "3.8"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: | 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Test
+        run: |
+          pip install pytest
+          pytest tests
+
+  coverage:
+    name: Coverage Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
+      - name: Install
+        run: | 
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -e .
+      - name: Coverage
+        run: |
+          pip install pytest pytest-cov
+          pytest tests --cov-report=xml --cov=airnowpy
+      - name: Report
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  release:
+    name: Release Job
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: ${{ success() && github.ref == 'refs/heads/master' }}
+    steps:
     - name: Checkout
       uses: actions/checkout@v2
-
     - name: Setup
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
-
+        python-version: "3.x"
     - name: Install
       run: | 
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -e .
-
-    - name: Lint
-      run: |
-        pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
-    - name: Test
-      run: |
-        pip install pytest
-        pytest tests
-
     - name: Package
       run: |
         pip install setuptools wheel
         python setup.py bdist_wheel
-
     - name: Publish
-      if: ${{ success() && github.ref == 'refs/heads/master' }}
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}

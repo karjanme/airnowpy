@@ -1,3 +1,5 @@
+[codecov-image]: https://codecov.io/gh/jnsnkrllive/airnowpy/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/jnsnkrllive/airnowpy
 [downloads-image]: https://pepy.tech/badge/airnowpy
 [downloads-url]: https://pepy.tech/project/airnowpy
 [github-actions-image]: https://github.com/jnsnkrllive/airnowpy/workflows/Main%20Workflow/badge.svg?branch=master
@@ -8,6 +10,7 @@
 [![PyPi][pypi-image]][pypi-url]
 [![GitHub Actions][github-actions-image]][github-actions-url]
 [![Downloads][downloads-image]][downloads-url]
+[![Code Coverage][codecov-image]][codecov-url]
 
 # AirNowPy
 
