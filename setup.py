@@ -7,11 +7,11 @@ with open("README.md", "r") as fh:
 
 setup(
     name="airnowpy",
-    version="2.0.0",
+    version="2.1.0",
     description="Python Library for the AirNow API",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jnsnkrllive/airnowpy",
+    url="https://github.com/karjanme/airnowpy",
     author="Karl Jansen",
     author_email="jnsnkrl@live.com",
     license="MIT",
