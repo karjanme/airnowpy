@@ -1,6 +1,6 @@
 [codecov-image]: https://codecov.io/gh/karjanme/airnowpy/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/karjanme/airnowpy
-[downloads-image]: https://pepy.tech/badge/airnowpy
+[downloads-image]:https://static.pepy.tech/badge/airnowpy
 [downloads-url]: https://pepy.tech/project/airnowpy
 [github-actions-image]: https://github.com/karjanme/airnowpy/workflows/Main%20Workflow/badge.svg?branch=master
 [github-actions-url]: https://github.com/karjanme/airnowpy/actions?query=workflow%3A%22Main+Workflow%22+branch%3Amaster
