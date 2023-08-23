@@ -7,6 +7,10 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+## Release 2.1.0 [2023-08-22]
+### Security
+- CVE-2023-32681: Bump `requests` from 2.22.0 to 2.31.0
+
 ## Release 2.0.0 [2020-07-14]
 ### Added
 - The ability to access all data contained within an observation
