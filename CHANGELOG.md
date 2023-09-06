@@ -9,6 +9,10 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Changed
 - Observation timestamps are now timezone aware
 
+## Release 2.2.0 [2023-09-05]
+### Changed
+- Observation timestamps are now timezone aware
+
 ## Release 2.1.0 [2023-08-22]
 ### Security
 - CVE-2023-32681: Bump `requests` from 2.22.0 to 2.31.0
