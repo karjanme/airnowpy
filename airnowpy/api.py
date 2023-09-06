@@ -2,7 +2,8 @@ import json
 import re
 import requests
 
-from datetime import datetime
+from datetime import datetime, tzinfo
+from pytz import timezone
 from typing import List
 
 from airnowpy.observation import Observation
@@ -118,12 +119,14 @@ class API(object):
         for jsonObservation in rawObservations:
             datetimeStr = (jsonObservation["DateObserved"]
                 + str(jsonObservation["HourObserved"]))
+            tzone = API.convertLocalTimeZone(jsonObservation["LocalTimeZone"])
             timestamp = datetime.strptime(datetimeStr,
                 "%Y-%m-%d %H")
+            localized_timestamp = tzone.localize(timestamp)
             category = Category.lookupByValue(
                 jsonObservation["Category"]["Number"]
             )
-            observation = Observation(timestamp,
+            observation = Observation(localized_timestamp,
                                       jsonObservation["ReportingArea"],
                                       jsonObservation["StateCode"],
                                       jsonObservation["Latitude"],
@@ -133,3 +136,15 @@ class API(object):
                                       category)
             observations.append(observation)
         return observations
+
+    @staticmethod
+    def convertLocalTimeZone(localTimeZone: str) -> tzinfo:
+        if (localTimeZone == 'EST'):
+            return timezone('Etc/GMT-5')
+        if (localTimeZone == 'CST'):
+            return timezone('Etc/GMT-6')
+        if (localTimeZone == 'MST'):
+            return timezone('Etc/GMT-7')
+        if (localTimeZone == 'PST'):
+            return timezone('Etc/GMT-8')
+        raise LookupError("Local Time Zone '" + localTimeZone + "' is not supported.")

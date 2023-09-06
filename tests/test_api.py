@@ -1,6 +1,7 @@
 import requests
 
-from datetime import datetime
+from datetime import datetime, tzinfo
+from pytz import timezone
 from typing import List
 from unittest import TestCase
 from unittest.mock import patch
@@ -147,7 +148,7 @@ class APITest(TestCase):
             self._assertObservations(observations)
 
     def _assertObservations(self, observations: List[Observation]) -> None:
-        expectedTimestamp = datetime(2019, 8, 1, 1, 0)
+        expectedTimestamp = datetime(2019, 8, 1, 1, 0, tzinfo=API.convertLocalTimeZone("PST"))
         self.assertEqual(2, len(observations))
         self.assertEqual(expectedTimestamp, observations[0].timestamp)
         self.assertEqual("O3", observations[0].parameterName)
@@ -155,3 +156,22 @@ class APITest(TestCase):
         self.assertEqual(expectedTimestamp, observations[1].timestamp)
         self.assertEqual("PM2.5", observations[1].parameterName)
         self.assertEqual(Category.GOOD, observations[1].category)
+
+    def test_convertLocalTimeZone_withGoodTimeZoneString(self):
+        self.executeConvertLocalTimeZoneTest("EST", timezone("Etc/GMT-5"))
+        self.executeConvertLocalTimeZoneTest("CST", timezone("Etc/GMT-6"))
+        self.executeConvertLocalTimeZoneTest("MST", timezone("Etc/GMT-7"))
+        self.executeConvertLocalTimeZoneTest("PST", timezone("Etc/GMT-8"))
+
+    def test_convertLocalTimeZone_withBadTimeZoneString(self):
+        badTimeZoneStr = "PDT"
+        expectedMsg = "Local Time Zone '" + badTimeZoneStr + "' is not supported."
+        with self.assertRaises(LookupError) as context:
+            API.convertLocalTimeZone(badTimeZoneStr)
+            ex = context.exception
+            actualMsg = ex.msg
+            self.assertEquals(expectedMsg, actualMsg)
+
+    def executeConvertLocalTimeZoneTest(self, timeZoneStr: str, expectedTZ: tzinfo):
+        actualTZ = API.convertLocalTimeZone(timeZoneStr)
+        self.assertEqual(expectedTZ, actualTZ)
