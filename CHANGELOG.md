@@ -7,6 +7,7 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+## Release 2.2.1 [2023-10-01]
 ### Fixed
 - Bug with how the observation date/time is read from the response
 
