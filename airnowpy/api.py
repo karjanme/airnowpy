@@ -117,7 +117,7 @@ class API(object):
         rawObservations = json.loads(response.text)
         observations = []
         for jsonObservation in rawObservations:
-            datetimeStr = (jsonObservation["DateObserved"]
+            datetimeStr = (jsonObservation["DateObserved"] + " "
                 + str(jsonObservation["HourObserved"]))
             tzone = API.convertLocalTimeZone(jsonObservation["LocalTimeZone"])
             timestamp = datetime.strptime(datetimeStr,
