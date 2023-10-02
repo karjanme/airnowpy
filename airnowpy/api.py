@@ -140,11 +140,11 @@ class API(object):
     @staticmethod
     def convertLocalTimeZone(localTimeZone: str) -> tzinfo:
         if (localTimeZone == 'EST'):
-            return timezone('Etc/GMT-5')
+            return timezone('Etc/GMT+5')
         if (localTimeZone == 'CST'):
-            return timezone('Etc/GMT-6')
+            return timezone('Etc/GMT+6')
         if (localTimeZone == 'MST'):
-            return timezone('Etc/GMT-7')
+            return timezone('Etc/GMT+7')
         if (localTimeZone == 'PST'):
-            return timezone('Etc/GMT-8')
+            return timezone('Etc/GMT+8')
         raise LookupError("Local Time Zone '" + localTimeZone + "' is not supported.")
