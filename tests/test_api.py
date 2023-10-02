@@ -158,10 +158,10 @@ class APITest(TestCase):
         self.assertEqual(Category.GOOD, observations[1].category)
 
     def test_convertLocalTimeZone_withGoodTimeZoneString(self):
-        self.executeConvertLocalTimeZoneTest("EST", timezone("Etc/GMT-5"))
-        self.executeConvertLocalTimeZoneTest("CST", timezone("Etc/GMT-6"))
-        self.executeConvertLocalTimeZoneTest("MST", timezone("Etc/GMT-7"))
-        self.executeConvertLocalTimeZoneTest("PST", timezone("Etc/GMT-8"))
+        self.executeConvertLocalTimeZoneTest("EST", timezone("Etc/GMT+5"))
+        self.executeConvertLocalTimeZoneTest("CST", timezone("Etc/GMT+6"))
+        self.executeConvertLocalTimeZoneTest("MST", timezone("Etc/GMT+7"))
+        self.executeConvertLocalTimeZoneTest("PST", timezone("Etc/GMT+8"))
 
     def test_convertLocalTimeZone_withBadTimeZoneString(self):
         badTimeZoneStr = "PDT"
