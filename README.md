@@ -22,4 +22,4 @@ In order to use this library an API key is required. Get one [here](https://docs
 
 ## License
 
-[MIT License](https://github.com/karjanme/airnowpy/blob/master/LICENSE)
+[MIT License](https://github.com/karjanme/airnowpy/blob/main/LICENSE)
