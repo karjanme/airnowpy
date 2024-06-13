@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+
+## Release 2.3.0 [2024-06-12]
 ### Security
 - CVE-2024-35195: Bump `requests` from 2.31.0 to 2.32.0
 
