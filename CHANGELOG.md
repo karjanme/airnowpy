@@ -7,6 +7,10 @@ This project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
 
+## Release 2.3.0 [2024-06-12]
+### Security
+- CVE-2024-35195: Bump `requests` from 2.31.0 to 2.32.0
+
 ## Release 2.2.2 [2023-10-01]
 ### Fixed
 - Bug with how timezones are applied to observation timestamps
